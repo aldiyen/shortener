@@ -1,0 +1,176 @@
+[07/Mar/2014:18:20:25 -0500] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[07/Mar/2014:18:28:39 -0500] Server.httpServe: SHUTDOWN
+[07/Mar/2014:18:28:39 -0500] Server.httpServe: BACKEND STOPPED
+[16/Mar/2014:11:29:01 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[16/Mar/2014:11:29:40 -0400] Server.httpServe: SHUTDOWN
+[16/Mar/2014:11:29:40 -0400] Server.httpServe: BACKEND STOPPED
+[16/Mar/2014:12:45:18 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[16/Mar/2014:12:45:21 -0400] Server.httpServe: SHUTDOWN
+[16/Mar/2014:12:45:21 -0400] Server.httpServe: BACKEND STOPPED
+[22/Mar/2014:21:13:25 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[22/Mar/2014:21:19:42 -0400] Server.httpServe: SHUTDOWN
+[22/Mar/2014:21:19:42 -0400] Server.httpServe: BACKEND STOPPED
+[22/Mar/2014:22:44:40 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[23/Mar/2014:10:13:46 -0400] Server.httpServe: SHUTDOWN
+[23/Mar/2014:10:13:46 -0400] Server.httpServe: BACKEND STOPPED
+[23/Mar/2014:21:58:39 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[23/Mar/2014:21:58:46 -0400] During processing of request from 127.0.0.1:59291
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:59291\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: 1\n    contextpath: /\n    URI: /1\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Incompatible {errSQLType = "text", errSQLTableOid = Just (Oid 16389), errSQLField = "url", errHaskellType = "Int", errMessage = "types incompatible"}
+[23/Mar/2014:21:58:48 -0400] During processing of request from 127.0.0.1:59291
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:59291\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36\n Accept: */*\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: favicon.ico\n    contextpath: /\n    URI: /favicon.ico\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Incompatible {errSQLType = "text", errSQLTableOid = Just (Oid 16389), errSQLField = "url", errHaskellType = "Int", errMessage = "types incompatible"}
+[23/Mar/2014:21:58:48 -0400] During processing of request from 127.0.0.1:59291
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:59291\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36\n Accept: */*\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: favicon.ico\n    contextpath: /\n    URI: /favicon.ico\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Incompatible {errSQLType = "text", errSQLTableOid = Just (Oid 16389), errSQLField = "url", errHaskellType = "Int", errMessage = "types incompatible"}
+[23/Mar/2014:21:59:12 -0400] Server.httpServe: SHUTDOWN
+[23/Mar/2014:21:59:12 -0400] Server.httpServe: BACKEND STOPPED
+[23/Mar/2014:22:09:37 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[23/Mar/2014:22:09:39 -0400] During processing of request from 127.0.0.1:59360
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:59360\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\n Host: localhost:8000\n Cache-Control: max-age=0\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: 1\n    contextpath: /\n    URI: /1\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+ManyErrors [ConversionFailed {errSQLType = "text", errSQLTableOid = Just (Oid 16389), errSQLField = "url", errHaskellType = "Null", errMessage = "data is not null"},Incompatible {errSQLType = "text", errSQLTableOid = Just (Oid 16389), errSQLField = "url", errHaskellType = "Char", errMessage = ""}]
+[23/Mar/2014:22:09:39 -0400] During processing of request from 127.0.0.1:59360
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:59360\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36\n Accept: */*\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: favicon.ico\n    contextpath: /\n    URI: /favicon.ico\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+ManyErrors [ConversionFailed {errSQLType = "text", errSQLTableOid = Just (Oid 16389), errSQLField = "url", errHaskellType = "Null", errMessage = "data is not null"},Incompatible {errSQLType = "text", errSQLTableOid = Just (Oid 16389), errSQLField = "url", errHaskellType = "Char", errMessage = ""}]
+[23/Mar/2014:22:09:40 -0400] During processing of request from 127.0.0.1:59360
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:59360\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36\n Accept: */*\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: favicon.ico\n    contextpath: /\n    URI: /favicon.ico\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+ManyErrors [ConversionFailed {errSQLType = "text", errSQLTableOid = Just (Oid 16389), errSQLField = "url", errHaskellType = "Null", errMessage = "data is not null"},Incompatible {errSQLType = "text", errSQLTableOid = Just (Oid 16389), errSQLField = "url", errHaskellType = "Char", errMessage = ""}]
+[23/Mar/2014:22:10:46 -0400] Server.httpServe: SHUTDOWN
+[23/Mar/2014:22:10:46 -0400] Server.httpServe: BACKEND STOPPED
+[23/Mar/2014:22:12:46 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[23/Mar/2014:22:15:15 -0400] Server.httpServe: SHUTDOWN
+[23/Mar/2014:22:15:15 -0400] Server.httpServe: BACKEND STOPPED
+[23/Mar/2014:22:26:50 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[26/Mar/2014:03:44:45 -0400] Server.httpServe: SHUTDOWN
+[26/Mar/2014:03:44:45 -0400] Server.httpServe: BACKEND STOPPED
+[14/Apr/2014:22:21:18 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[14/Apr/2014:22:23:05 -0400] Server.httpServe: SHUTDOWN
+[14/Apr/2014:22:23:05 -0400] Server.httpServe: BACKEND STOPPED
+[14/Apr/2014:22:26:10 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[15/Apr/2014:14:56:12 -0400] Server.httpServe: SHUTDOWN
+[15/Apr/2014:14:56:12 -0400] Server.httpServe: BACKEND STOPPED
+[15/Apr/2014:15:14:11 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[28/Apr/2014:20:03:59 -0400] Server.httpServe: SHUTDOWN
+[28/Apr/2014:20:03:59 -0400] Server.httpServe: BACKEND STOPPED
+[10/May/2014:20:13:08 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[10/May/2014:20:13:17 -0400] During processing of request from 127.0.0.1:54434
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:54434\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: 1\n    contextpath: /\n    URI: /1\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+SqlError {sqlState = "", sqlExecStatus = FatalError, sqlErrorMsg = "could not connect to server: Connection refused\n\tIs the server running on host \"localhost\" and accepting\n\tTCP/IP connections on port 5432.0?\ncould not connect to server: Connection refused\n\tIs the server running on host \"localhost\" and accepting\n\tTCP/IP connections on port 5432.0?\ncould not connect to server: Connection refused\n\tIs the server running on host \"localhost\" and accepting\n\tTCP/IP connections on port 5432.0?\n", sqlErrorDetail = "", sqlErrorHint = ""}
+[10/May/2014:20:13:17 -0400] During processing of request from 127.0.0.1:54434
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:54434\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36\n Accept: */*\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: favicon.ico\n    contextpath: /\n    URI: /favicon.ico\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+SqlError {sqlState = "", sqlExecStatus = FatalError, sqlErrorMsg = "could not connect to server: Connection refused\n\tIs the server running on host \"localhost\" and accepting\n\tTCP/IP connections on port 5432.0?\ncould not connect to server: Connection refused\n\tIs the server running on host \"localhost\" and accepting\n\tTCP/IP connections on port 5432.0?\ncould not connect to server: Connection refused\n\tIs the server running on host \"localhost\" and accepting\n\tTCP/IP connections on port 5432.0?\n", sqlErrorDetail = "", sqlErrorHint = ""}
+[10/May/2014:20:13:17 -0400] During processing of request from 127.0.0.1:54434
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:54434\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36\n Accept: */*\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: favicon.ico\n    contextpath: /\n    URI: /favicon.ico\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+SqlError {sqlState = "", sqlExecStatus = FatalError, sqlErrorMsg = "could not connect to server: Connection refused\n\tIs the server running on host \"localhost\" and accepting\n\tTCP/IP connections on port 5432.0?\ncould not connect to server: Connection refused\n\tIs the server running on host \"localhost\" and accepting\n\tTCP/IP connections on port 5432.0?\ncould not connect to server: Connection refused\n\tIs the server running on host \"localhost\" and accepting\n\tTCP/IP connections on port 5432.0?\n", sqlErrorDetail = "", sqlErrorHint = ""}
+[10/May/2014:20:14:12 -0400] Server.httpServe: SHUTDOWN
+[10/May/2014:20:14:12 -0400] Server.httpServe: BACKEND STOPPED
+[10/May/2014:20:32:00 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[10/May/2014:20:32:15 -0400] httpSession caught an exception during sending response phase:
+During processing of request from 127.0.0.1:54912
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:54912\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: 12\n    contextpath: /\n    URI: /12\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Prelude.head: empty list
+[10/May/2014:20:32:15 -0400] httpSession caught an exception during sending response phase:
+During processing of request from 127.0.0.1:54918
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:54918\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: 12\n    contextpath: /\n    URI: /12\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Prelude.head: empty list
+[10/May/2014:20:32:18 -0400] httpSession caught an exception during sending response phase:
+During processing of request from 127.0.0.1:54922
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:54922\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: 2\n    contextpath: /\n    URI: /2\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Prelude.head: empty list
+[10/May/2014:20:32:25 -0400] httpSession caught an exception during sending response phase:
+During processing of request from 127.0.0.1:54923
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:54923\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: 2\n    contextpath: /\n    URI: /2\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Prelude.head: empty list
+[10/May/2014:20:32:25 -0400] httpSession caught an exception during sending response phase:
+During processing of request from 127.0.0.1:54925
+request:
+"Request <\n    server-name: localhost\n    remote: 127.0.0.1:54925\n    local: 127.0.0.1:8000\n    Headers:\n      ========================================\n          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36\n Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\n Host: localhost:8000\n Accept-Language: en-US,en;q=0.8\n Accept-Encoding: gzip,deflate,sdch\n Connection: keep-alive\n      ========================================\n    content-length: Nothing\n    method: GET\n    version: (1,1)\n    cookies:\n      ========================================\n      \n      ========================================\n    pathinfo: 2\n    contextpath: /\n    URI: /2\n    params:\n      ========================================\n      \n      ========================================\n>"
+A web handler threw an exception. Details:
+Prelude.head: empty list
+[10/May/2014:22:50:29 -0400] Server.httpServe: SHUTDOWN
+[10/May/2014:22:50:29 -0400] Server.httpServe: BACKEND STOPPED
+[10/May/2014:23:08:24 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[11/May/2014:21:58:15 -0400] Server.httpServe: SHUTDOWN
+[11/May/2014:21:58:15 -0400] Server.httpServe: BACKEND STOPPED
+[14/May/2014:00:35:10 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[14/May/2014:00:37:35 -0400] Server.httpServe: SHUTDOWN
+[14/May/2014:00:37:35 -0400] Server.httpServe: BACKEND STOPPED
+[14/May/2014:00:38:55 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[14/May/2014:00:39:42 -0400] Server.httpServe: SHUTDOWN
+[14/May/2014:00:39:42 -0400] Server.httpServe: BACKEND STOPPED
+[14/May/2014:00:39:43 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[14/May/2014:00:39:43 -0400] Server.httpServe: SHUTDOWN
+[14/May/2014:00:39:43 -0400] Server.httpServe: BACKEND STOPPED
+[14/May/2014:00:40:49 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[14/May/2014:00:42:25 -0400] Server.httpServe: SHUTDOWN
+[14/May/2014:00:42:25 -0400] Server.httpServe: BACKEND STOPPED
+[14/May/2014:00:43:51 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[14/May/2014:00:45:06 -0400] Server.httpServe: SHUTDOWN
+[14/May/2014:00:45:06 -0400] Server.httpServe: BACKEND STOPPED
+[14/May/2014:00:45:53 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[26/May/2014:17:55:49 -0400] Server.httpServe: SHUTDOWN
+[26/May/2014:17:55:49 -0400] Server.httpServe: BACKEND STOPPED
+[26/May/2014:17:55:51 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[26/May/2014:17:55:55 -0400] Server.httpServe: SHUTDOWN
+[26/May/2014:17:55:55 -0400] Server.httpServe: BACKEND STOPPED
+[26/May/2014:18:03:01 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[26/May/2014:18:03:14 -0400] TEST
+[26/May/2014:18:07:05 -0400] Server.httpServe: SHUTDOWN
+[26/May/2014:18:07:05 -0400] Server.httpServe: BACKEND STOPPED
+[26/May/2014:18:27:31 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[26/May/2014:18:28:18 -0400] Got x: []
+[26/May/2014:18:28:24 -0400] Got x: []
+[26/May/2014:18:28:26 -0400] Got x: []
+[26/May/2014:18:28:28 -0400] Got url: http://aldiyen.com/
+[26/May/2014:18:28:29 -0400] Got x: []
+[26/May/2014:18:30:11 -0400] Got x: []
+[26/May/2014:18:30:13 -0400] Got url: http://aldiyen.com/
+[26/May/2014:18:30:14 -0400] Got x: []
+[26/May/2014:18:40:10 -0400] Server.httpServe: SHUTDOWN
+[26/May/2014:18:40:10 -0400] Server.httpServe: BACKEND STOPPED
+[26/May/2014:18:40:12 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[26/May/2014:18:40:12 -0400] Server.httpServe: SHUTDOWN
+[26/May/2014:18:40:12 -0400] Server.httpServe: BACKEND STOPPED
+[26/May/2014:18:49:17 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[26/May/2014:18:49:19 -0400] Resolved to x: []
+[26/May/2014:18:49:20 -0400] Resolved to url: http://aldiyen.com/
+[26/May/2014:18:49:21 -0400] Resolved to x: []
+[26/May/2014:18:49:33 -0400] Resolved to x: []
+[26/May/2014:18:49:37 -0400] Resolved to x: []
+[26/May/2014:18:51:56 -0400] Server.httpServe: SHUTDOWN
+[26/May/2014:18:51:56 -0400] Server.httpServe: BACKEND STOPPED
+[26/May/2014:19:08:56 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[26/May/2014:19:22:34 -0400] Server.httpServe: SHUTDOWN
+[26/May/2014:19:22:34 -0400] Server.httpServe: BACKEND STOPPED
+[26/May/2014:19:24:19 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[26/May/2014:19:24:29 -0400] Server.httpServe: SHUTDOWN
+[26/May/2014:19:24:29 -0400] Server.httpServe: BACKEND STOPPED
+[26/May/2014:19:25:08 -0400] Server.httpServe: START, binding to [http://0.0.0.0:8000/]
+[27/May/2014:21:24:06 -0400] Server.httpServe: SHUTDOWN
+[27/May/2014:21:24:06 -0400] Server.httpServe: BACKEND STOPPED
