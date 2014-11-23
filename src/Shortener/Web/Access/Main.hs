@@ -1,8 +1,8 @@
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell #-}
 
-module Main where
+module Shortener.Web.Access.Main where
 
 -- Library imports
 import           Control.Applicative
@@ -18,7 +18,7 @@ import           Snap.Util.FileServe
 import qualified Data.ByteString.Char8 as B
 
 -- Local imports
-import Converter
+import           Shortener.Converter
 
 data App = App
     {
@@ -61,7 +61,7 @@ linkHandler = do
         Nothing -> modifyResponse $ setResponseStatus 400 "Invalid URI"
         Just v  -> loadUrl v >>= (forwardTo request v)
     where decode        = decodeR . B.unpack
-          forwardTo request id [Only url] = (logRedirect (rqRemoteAddr request) id) >>= (\_ -> redirect url)
+          forwardTo request urlId [Only url] = (logRedirect (rqRemoteAddr request) urlId) >>= (\_ -> redirect url)
           forwardTo _       _  _       = modifyResponse $ setResponseCode 404
 
 -- Helper function to load a URL from the DB

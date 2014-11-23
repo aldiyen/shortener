@@ -8,9 +8,11 @@ Category:            Web
 Build-type:          Simple
 Cabal-version:       >=1.2
 
-Executable shortener
+Executable shortener-access
   hs-source-dirs: src
-  main-is: Main.hs
+  main-is: Shortener/Web/Access/Main.hs
+  exposed-modules:
+      Shortener.Converter
 
   Build-depends:
     base                      >= 4.4      && < 10,

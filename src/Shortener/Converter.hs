@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Converter (
+module Shortener.Converter (
     encodeR,
     encodeL,
     decodeR,
