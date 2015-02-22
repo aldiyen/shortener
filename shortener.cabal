@@ -8,11 +8,15 @@ Category:            Web
 Build-type:          Simple
 Cabal-version:       >=1.2
 
+Library
+  hs-source-dirs: src
+  exposed-modules:
+    Shortener.Converter
+    Shortener.DataAccess
+
 Executable shortener-access
   hs-source-dirs: src
   main-is: Shortener/Web/Access/Main.hs
-  exposed-modules:
-      Shortener.Converter
 
   Build-depends:
     base                      >= 4.4      && < 10,
@@ -28,7 +32,32 @@ Executable shortener-access
     snaplet-postgresql-simple
 
   if impl(ghc >= 6.12.0)
-    ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
+    ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields
                  -fno-warn-unused-do-bind
   else
-    ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields -O2
+    ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields
+
+Executable shortener-api
+  hs-source-dirs: src
+  main-is: Shortener/Web/Api/Main.hs
+
+  Build-depends:
+    aeson                     == 0.8.0.2,
+    base                      >= 4.4      && < 10,
+    bytestring                >= 0.9.1 && < 0.11,
+    containers                >= 0.0,
+    MonadCatchIO-transformers >= 0.2.1 && < 0.4,
+    time,
+    lens                      >= 4 && < 5,
+    mtl                       >= 2     && < 3,
+    snap                      >= 0.11 && < 14,
+    snap-core                 >= 0.9 && < 14,
+    snap-server               >= 0.9 && < 14,
+    snaplet-postgresql-simple,
+    text
+
+  if impl(ghc >= 6.12.0)
+    ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields
+                 -fno-warn-unused-do-bind
+  else
+    ghc-options: -threaded -Wall -fwarn-tabs -funbox-strict-fields
