@@ -41,6 +41,7 @@ indexHandler = ifTop $ writeText "This is a URL shortener. Why are you here?"
 -- 2. If the URI path can be decoded, load the corresponding url_id from DB
 -- 3. If the url_id existed, log that the user visited it back to the DB, then forward them on
 -- FIXME should probably have proper 400 and 404 handlers, i.e. display real web pages
+-- TODO: track user agent and maybe add a session cookie as well
 linkHandler :: Handler App App ()
 linkHandler = do
     request <- getRequest

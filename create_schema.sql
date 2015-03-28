@@ -21,10 +21,13 @@ CREATE TABLE user_login (
     password       TEXT      NOT NULL
 );
 
+CREATE UNIQUE INDEX user_login_unique_username ON user_login (username);
+
 CREATE TABLE url_create (
     url_create_pk BIGSERIAL   PRIMARY KEY,
     url_pk        BIGINT      NOT NULL REFERENCES url(url_pk),
     datetime      TIMESTAMPTZ NOT NULL,
     ip_address    VARCHAR(39) NOT NULL, -- 39 chars max for IPv6
-    user_login_pk BIGINT      NOT NULL REFERENCES user_login(user_login_pk)
+    user_login_pk BIGINT      NOT NULL REFERENCES user_login(user_login_pk),
+    UNIQUE (url_pk)
 );

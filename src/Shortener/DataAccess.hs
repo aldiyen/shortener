@@ -10,7 +10,8 @@ module Shortener.DataAccess (
     insertUrl,
     DataAccess,
     UserLogin(UserLogin),
-    UrlInfo(UrlInfo)
+    UrlInfo(UrlInfo),
+    InsertUrlResult(NewUrlPk, ExistingUrlPk, InsertUrlError)
 ) where
 
 import           Control.Lens.TH (makeLenses)
@@ -21,7 +22,7 @@ import           Data.Time.Clock (UTCTime, getCurrentTime)
 import           GHC.Int (Int64)
 import           Snap
 import           Snap.Snaplet.PostgresqlSimple (Only(Only), FromRow, HasPostgres, Postgres, Query(Query), field, fromRow, getPostgresState, execute, pgsInit, query)
-import qualified Data.ByteString.Char8 as B
+import qualified Data.ByteString as B
 
 data DataAccess = DataAccess
     { _db   :: Snaplet Postgres
@@ -30,12 +31,12 @@ data DataAccess = DataAccess
 makeLenses ''DataAccess
 
 data UserLogin = UserLogin
-    { userLoginUserPk :: Int
+    { userLoginUserPk :: Int64
     , userLoginUsername :: Text
     } deriving Show
 
 data UrlInfo = UrlInfo
-    { urlInfoUrlPk  :: Int
+    { urlInfoUrlPk  :: Int64
     , urlInfoUrl :: Text
     , urlInfoCreator :: UserLogin
     , urlInfoCreatedDatetime :: UTCTime
@@ -43,29 +44,10 @@ data UrlInfo = UrlInfo
     , urlInfoLastAccessDatetime :: Maybe UTCTime
     } deriving Show
 
+data InsertUrlResult = NewUrlPk Int64 | ExistingUrlPk Int64 | InsertUrlError Text
+
 instance FromRow UrlInfo where
     fromRow = UrlInfo <$> field <*> field <*> (liftM2 UserLogin field field) <*> field <*> field <*> field
-
-urlInfoByPkQuery :: Query
-urlInfoByPkQuery =
-    "SELECT u.url_pk,\
-\           u.url,\
-\           ul.user_login_pk,\
-\           ul.username,\
-\           uc.datetime,\
-\           uc.ip_address,\
-\           MAX(ua.datetime)\
-\    FROM url u\
-\    JOIN url_create uc ON uc.url_pk = u.url_pk\
-\    JOIN user_login ul ON ul.user_login_pk = uc.user_login_pk\
-\    LEFT JOIN url_access ua ON ua.url_pk = u.url_pk\
-\    WHERE u.url_pk = ?\
-\    GROUP BY u.url_pk,\
-\             u.url,\
-\             uc.datetime,\
-\             ul.user_login_pk,\
-\             ul.username,\
-\             uc.ip_address"
 
 daInit :: SnapletInit b DataAccess
 daInit = makeSnaplet "ald.li data access" "ald.li URL shortener data access module" Nothing $ do
@@ -79,22 +61,26 @@ instance HasPostgres (Handler b DataAccess) where
     getPostgresState = with db get
 
 -- Helper function to load a URL from the DB
-loadUrl :: (HasPostgres m, Functor m) => Int -> m (Maybe B.ByteString)
+loadUrl :: (HasPostgres m, Functor m) => Int64 -> m (Maybe B.ByteString)
 loadUrl x = fmap (listToMaybe . concat) $ query "SELECT url FROM url WHERE url_pk = ?" [x]
 
-loadUrlInfo :: (HasPostgres m, Functor m) => Int -> m (Maybe UrlInfo)
+loadUrlInfo :: (HasPostgres m, Functor m) => Int64 -> m (Maybe UrlInfo)
 loadUrlInfo x = fmap listToMaybe $ query urlInfoByPkQuery [x]
+    where urlInfoByPkQuery = "SELECT url_pk, url, user_login_pk, username, datetime, ip_address, ua.datetime FROM load_url_info(?)" :: Query
 
 -- Helper function to insert a row into url_access, recording who we sent where
-logRedirect :: (HasPostgres m) => B.ByteString -> Int -> m Int64
+logRedirect :: (HasPostgres m) => B.ByteString -> Int64 -> m Int64
 logRedirect clientIp urlPk = do
     currentTime <- liftIO getCurrentTime
     execute "INSERT INTO url_access (ip_address, datetime, url_pk) VALUES (?, ?, ?)" (clientIp, currentTime, urlPk)
 
 -- Inserts a new URL
-insertUrl :: (HasPostgres m) => B.ByteString -> Int -> B.ByteString -> m Int64
+insertUrl :: (HasPostgres m, Functor m) => B.ByteString -> Int64 -> Text -> m InsertUrlResult
 insertUrl clientIp userPk url = do
     currentTime <- liftIO getCurrentTime
-    urlPk <- execute "INSERT INTO url (url) VALUES (?)" $ Only url
-    execute "INSERT INTO url_create (url_pk, datetime, ip_address, user_login_pk) VALUES (?, ?, ?, ?)" (urlPk, currentTime, clientIp, userPk)
-    return urlPk
+    maybeResut <- (fmap (listToMaybe) $ query "SELECT was_created, url_pk FROM add_url(?, ?, ?, ?)" $ (url, currentTime, clientIp, userPk))
+    case maybeResut of
+        Just (True, pk)  -> return (NewUrlPk pk)
+        Just (False, pk) -> return (ExistingUrlPk pk)
+        Nothing -> return $ InsertUrlError "Got no result from input query?"
+
