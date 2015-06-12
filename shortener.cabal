@@ -14,6 +14,9 @@ Library
     Shortener.Converter
     Shortener.DataAccess
 
+  Build-depends:
+    transformers
+
 Executable shortener-access
   hs-source-dirs: src
   main-is: Shortener/Web/Access/Main.hs

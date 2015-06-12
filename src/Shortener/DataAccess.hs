@@ -14,13 +14,15 @@ module Shortener.DataAccess (
     InsertUrlResult(NewUrlPk, ExistingUrlPk, InsertUrlError)
 ) where
 
+import           Control.Applicative ((<*>), (<$>))
 import           Control.Lens.TH (makeLenses)
-import           Control.Monad(liftM2)
+import           Control.Monad (liftM2)
+import           Control.Monad.IO.Class (liftIO)
 import           Data.Maybe (Maybe(Just, Nothing), listToMaybe)
 import           Data.Text (Text)
 import           Data.Time.Clock (UTCTime, getCurrentTime)
 import           GHC.Int (Int64)
-import           Snap
+import           Snap (Handler, Snaplet, SnapletInit, get, makeSnaplet, nestSnaplet, with)
 import           Snap.Snaplet.PostgresqlSimple (Only(Only), FromRow, HasPostgres, Postgres, Query(Query), field, fromRow, getPostgresState, execute, pgsInit, query)
 import qualified Data.ByteString as B
 
@@ -54,8 +56,6 @@ daInit = makeSnaplet "ald.li data access" "ald.li URL shortener data access modu
     d <- nestSnaplet "db" db $ pgsInit
     return $ DataAccess d
 
--- TODO: Maybe try to use esquelito and PErsistent, though they are apparently made for Yesod?
-
 -- So we don't have to call with db all the time
 instance HasPostgres (Handler b DataAccess) where
     getPostgresState = with db get
@@ -78,7 +78,7 @@ logRedirect clientIp urlPk = do
 insertUrl :: (HasPostgres m, Functor m) => B.ByteString -> Int64 -> Text -> m InsertUrlResult
 insertUrl clientIp userPk url = do
     currentTime <- liftIO getCurrentTime
-    maybeResut <- (fmap (listToMaybe) $ query "SELECT was_created, url_pk FROM add_url(?, ?, ?, ?)" $ (url, currentTime, clientIp, userPk))
+    maybeResut <- fmap (listToMaybe) $ query "SELECT was_created, url_pk FROM add_url(?, ?, ?, ?)" $ (url, currentTime, clientIp, userPk)
     case maybeResut of
         Just (True, pk)  -> return (NewUrlPk pk)
         Just (False, pk) -> return (ExistingUrlPk pk)

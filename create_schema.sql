@@ -31,3 +31,12 @@ CREATE TABLE url_create (
     user_login_pk BIGINT      NOT NULL REFERENCES user_login(user_login_pk),
     UNIQUE (url_pk)
 );
+
+CREATE TABLE user_token (
+    user_token_pk     BIGSERIAL   PRIMARY KEY,
+    user_login_pk     BIGINT      NOT NULL REFRENCES user_login(user_login_pk),
+    token             TEXT        NOT NULL,
+    creation_datetime TIMESTAMPTZ NOT NULL
+);
+
+CREATE UNIQUE INDEX user_token_unique_token ON user_token (token);

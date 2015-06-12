@@ -18,8 +18,9 @@ import           Snap
     ( Handler, Snaplet, SnapletInit, Method(GET, POST), serveSnaplet
     , defaultConfig, makeSnaplet, nestSnaplet, rqPathInfo, addRoutes
     , getRequest, modifyResponse, with, method, setResponseStatus, setResponseCode
+    , wrapSite
     )
-import           Snap.Core (writeText, writeLBS, readRequestBody, rqRemoteAddr)
+import           Snap.Core (setHeader, setContentType, writeText, writeLBS, readRequestBody, rqRemoteAddr)
 import           Snap.Http.Server (defaultConfig)
 --import           Snap.Util.FileServe
 
@@ -83,19 +84,26 @@ instance FromJSON AddUrlRequest where
 
 -- Mapping of paths to their handler functions
 routes :: [(B.ByteString, Handler App App ())]
-routes = [ ("/urlInfo", method GET urlInfoHandler)
-         , ("/addUrl",  method POST addUrlHandler)
+routes = [ ("/urlInfo",       method GET  urlInfoHandler)
+         , ("/addUrl",        method POST addUrlHandler)
+         , ("/generateToken", method POST generateTokenHandler)
          ]
 
--- FIXME: make this return proper content type
 appInit :: SnapletInit App App
 appInit = makeSnaplet "ald.li" "ald.li URL shortener API" Nothing $ do
     d <- nestSnaplet "da" da $ daInit
     addRoutes routes
+    wrapSite (\site -> setResponseHeaders >> site)
     return $ App d
+
+-- Set response headers which apply to all routes
+setResponseHeaders :: Handler App App ()
+setResponseHeaders = modifyResponse $ setHeader "Access-Control-Allow-Origin" "*" . setContentType "application/json"
 
 maxAllowedRequestBytes :: Int64
 maxAllowedRequestBytes = 1000 -- ~1KB
+
+readBody = readRequestBody maxAllowedRequestBytes
 
 -- Handler for a request for information on a given URL
 urlInfoHandler :: Handler App App ()
@@ -105,10 +113,11 @@ urlInfoHandler = do
         Nothing -> invalidUrl
         Just v  -> (with da $ loadUrlInfo v) >>= (forwardTo request)
     where intFromEncodedString        = decodeR . B.unpack -- TODO: make decode and encode funcs use Text instead of string?
-          forwardTo request (Just urlInfo) = writeLBS $ encode (UrlInfoResponse "Success" "success" (Just urlInfo))
+          forwardTo request (Just urlInfo) = writeResponse "Success" "success" (Just urlInfo)
           forwardTo _       _              = notFound
-          notFound   = (modifyResponse (setResponseCode 404)) >> (writeLBS $ encode (UrlInfoResponse "URL not found" "not_found" Nothing))
-          invalidUrl = (modifyResponse (setResponseCode 400)) >> (writeLBS $ encode (UrlInfoResponse "Invalid URL" "invalid_url" Nothing))
+          notFound   = (modifyResponse (setResponseCode 404)) >> writeResponse "URL not found" "not_found" Nothing
+          invalidUrl = (modifyResponse (setResponseCode 400)) >> writeResponse "Invalid URL" "invalid_url" Nothing
+          writeResponse message code urlInfo = writeLBS . encode $ UrlInfoResponse message code urlInfo
 
 -- handle invalid JSON input more gracefully
 -- TODO: (optionally -- config parameter?) use ipHeaderFilter to extract X-Forwarded-For
@@ -116,16 +125,28 @@ urlInfoHandler = do
 -- TODO: At least consider the possibility that encodeR will return something bad
 addUrlHandler :: Handler App App ()
 addUrlHandler = do
-    requestBody <- readRequestBody maxAllowedRequestBytes
+    requestBody <- readBody
     clientIp    <- fmap rqRemoteAddr getRequest
     case (decode requestBody :: Maybe AddUrlRequest) of
          -- this next line is totally wrong. if the insert somehow does something weird it can return success with a Nothing
          Just (AddUrlRequest url) -> (with da $ insertUrl clientIp 1 url) >>= handleInsertResult
-         Nothing -> writeText "WHAT?!?!"
-    where handleInsertResult (NewUrlPk pk)             = writeLBS $ encode (AddUrlResponse "Success" "success" (pkAsEncodedText pk))
-          handleInsertResult (ExistingUrlPk pk)        = writeLBS $ encode (AddUrlResponse "Duplicate" "duplicate" (pkAsEncodedText pk))
-          handleInsertResult (InsertUrlError errorMsg) = writeLBS $ encode (AddUrlResponse "Failed" "failed" Nothing)
+         Nothing                  -> writeResponse "Unable to parse request body" "invalid_request_body" Nothing
+    where handleInsertResult (NewUrlPk pk)             = writeResponse "Created successfully" "success"   (pkAsEncodedText pk)
+          handleInsertResult (ExistingUrlPk pk)        = writeResponse "Duplicate URL"        "duplicate" (pkAsEncodedText pk)
+          handleInsertResult (InsertUrlError errorMsg) = writeResponse "Failed to create URL" "failed"    Nothing
           pkAsEncodedText = (fmap T.pack) . encodeR
+          writeResponse message code urlPk = writeLBS . encode $ AddUrlResponse message code urlPk
+
+generateTokenHandler :: Handler App App ()
+generateTokenHandler = do
+    writeText "..."
+
+{-
+    requestBody <- readBody
+    case (decode requestBody :: Maybe GenerateTokenRequest) of
+        Just (GenerateTokenRequest username password) -> (with um $ authenticateUser username password)
+        Nothing                                       -> writeResponse "Unable to parse request body" "invalid_request_body" Nothing
+-}
 
 main :: IO ()
 main = serveSnaplet defaultConfig appInit
