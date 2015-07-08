@@ -2,22 +2,24 @@ module Client where
 
 import Html as H
 import StartApp
-import Html.Attributes exposing (class, id)
+import Html.Attributes exposing (autofocus, class, id, name, placeholder, disabled)
+import Html.Events exposing (onClick, on, targetValue)
 import Task exposing (Task, andThen)
 import Date exposing (Date)
 import Maybe exposing (Maybe(Just, Nothing))
+import Debug exposing (log)
+import Regex exposing (Regex, caseInsensitive, contains, regex)
 
 main =
   StartApp.start {
-    model  = initModel Nothing,
+    model  = initModel,
     update = update,
     view   = view
   }
 
 type alias Model =
-  { userContext : Maybe LoggedInUser
-  , currentTab  : Tab
-  , notice      : Maybe String
+  { currentTab  : Tab
+--  , userData    : UserData
   }
 
 type alias LoggedInUser =
@@ -32,18 +34,14 @@ type alias NewUser =
 --  , email    : String
   }
 
-type alias NewUrl     = String
-type alias PrimaryKey = Int
-
 type alias User =
-  { pk       : PrimaryKey
+  { pk       : Int
   , username : String
 --  , email : String
   }
 
-
 type alias Url =
-  { pk                 : PrimaryKey
+  { pk                 : Int
   , url                : String
   , creator            : User
   , createdDatetime    : Date -- Date includes time
@@ -51,34 +49,94 @@ type alias Url =
   , lastAccessDatetime : Date
   }
 
-type Tab = Login | MyUrls (List Url) | Users (List User)
+type NewUrl = InvalidUrl String | ValidUrl String
 
-type Action = AddUrl    NewUrl
-            | DeleteUrl PrimaryKey
-            | AddUser   NewUser
+type alias UrlData =
+  { urls     : List Url
+  , newUrl   : NewUrl
+  , errorMsg : Maybe String
+  }
+
+type alias UserData = String -- Dummy
+
+type Tab = Login | MyUrls (LoggedInUser, UrlData)
+
+type UrlAction = UpdateUrlInput String
+               | SubmitUrlInput
+
+type Action = MyUrlsAction UrlAction
             | ChangeTab Tab
 
-initModel : Maybe LoggedInUser -> Model
-initModel user = { userContext = user, currentTab = Login, notice = Nothing }
+initModel : Model
+initModel = { currentTab = myUrls "test" "test" }
 
-topNav : Tab -> H.Html
-topNav currentTab =
+myUrls : String -> String -> Tab
+myUrls username token = MyUrls ( { username = username, accessToken = token }, { urls = [], newUrl = InvalidUrl "", errorMsg = Nothing } )
+
+topNav : Signal.Address Action -> Tab -> H.Html
+topNav address currentTab =
   H.div [ id "topNav", class "topNav" ]
     [ H.div [ id "urlsButton", class "topNavButton" ] [ H.text "URLs" ]
     , H.div [ id "usersButton", class "topNavButton" ] [ H.text "Users" ]
     ]
 
+-- use let bindings instead of inlining all the attrs, etc.?
 view : Signal.Address Action -> Model -> H.Html
 view address model =
-  H.div [ class "pageWrapper" ]
-    [ topNav model.currentTab
-    , H.div [ id "mainBody", class "mainBody" ] [ H.text "lower portion" ]
+  case model.currentTab of
+    MyUrls (user, urlData) ->
+      H.div [ id "pageContents" ]
+        [ topNav address model.currentTab
+        , H.div
+            [ id "mainBody"
+            , class "mainBody"
+            ]
+            [ myUrlsTab (Signal.forwardTo address MyUrlsAction) urlData ]
+        ]
+    _ -> H.text "Error!"
+
+myUrlsTab : Signal.Address UrlAction -> UrlData -> H.Html
+myUrlsTab address urlData = addNewUrl address urlData.newUrl
+
+addNewUrl : Signal.Address UrlAction -> NewUrl -> H.Html
+addNewUrl address newUrl =
+  let extraSubmitAttrs = case newUrl of
+    InvalidUrl _ -> [ disabled True ]
+    ValidUrl   _ -> [ onClick address SubmitUrlInput ]
+  in
+    H.div []
+      [ H.input
+          [ id "newUrl"
+          , class "textInput"
+          , placeholder "https://example.com"
+          , autofocus True
+          , name "newUrl"
+          , on "input" targetValue (Signal.message address << UpdateUrlInput)
+        ] []
+      , H.button
+          ([ id "newUrlSubmitButton", class "submitButton", name "newUrlSubmitButton" ] ++ extraSubmitAttrs)
+          [ H.text "Submit" ]
     ]
 
 update : Action -> Model -> Model
 update action model =
+  case (action, model.currentTab) of
+    (MyUrlsAction a, MyUrls (user, urlData)) ->
+      { model | currentTab <- MyUrls (user, updateUrl a user urlData) }
+    _ -> model
+
+updateUrl : UrlAction -> LoggedInUser -> UrlData -> UrlData
+updateUrl action user urlData =
   case action of
-    AddUrl url -> model
-    DeleteUrl id -> model
-    AddUser user -> model
-    ChangeTab tab -> model
+    UpdateUrlInput url    ->
+      log ("Update URL: " ++ url)
+      { urlData | newUrl <- validateUrl url }
+    SubmitUrlInput  ->
+      log "Submitted URL!"
+      urlData
+
+validUrlRegex : Regex
+validUrlRegex = caseInsensitive <| regex "^https?://.+\\..+"
+
+validateUrl : String -> NewUrl
+validateUrl url = if contains validUrlRegex url then ValidUrl url else InvalidUrl url

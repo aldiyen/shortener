@@ -1,0 +1,44 @@
+/* Use background colors instead of borders */
+
+#pageContents {
+  width:  500px;
+  height: 500px;
+  clear: both;
+  margin: auto;
+}
+
+.topNav {
+  width: 100%;
+  height: 20px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  clear: both;
+}
+
+.topNavButton {
+  background-color: LightGray;
+  width: 50px;
+  height: 20px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  float: left;
+  padding: 5px;
+}
+
+.activeTopNavButton {
+  background-color: LightGrey;
+}
+
+#mainBody {
+  border: 1px solid black;
+  clear: both;
+  padding: 3px;
+}
+
+#newUrl {
+  display: block;
+}
+
+#submitButton {
+  display: block;
+}
