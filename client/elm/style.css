@@ -29,6 +29,10 @@
   background-color: LightGrey;
 }
 
+.pageSection {
+  clear: both;
+}
+
 #mainBody {
   border: 1px solid black;
   clear: both;
@@ -39,6 +43,6 @@
   display: block;
 }
 
-#submitButton {
+.submitButton {
   display: block;
 }
