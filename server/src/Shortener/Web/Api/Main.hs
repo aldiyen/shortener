@@ -30,9 +30,11 @@ import           Data.Aeson ((.:), (.=), Value(Object), Object, FromJSON(parseJS
 -- Local imports
 import           Shortener.Converter (decodeR, encodeR)
 import           Shortener.DataAccess (DataAccess, UserLogin(UserLogin), UrlInfo(UrlInfo), InsertUrlResult(NewUrlPk, ExistingUrlPk, InsertUrlError), daInit, insertUrl, loadUrl, loadUrlInfo, logRedirect)
+import           Shortener.UserManagement (DataAccess, UserLogin(UserLogin), UrlInfo(UrlInfo), InsertUrlResult(NewUrlPk, ExistingUrlPk, InsertUrlError), daInit, insertUrl, loadUrl, loadUrlInfo, logRedirect)
 
 data App = App
     { _da   :: Snaplet DataAccess
+    , _um   :: Snaplet UserManagement
     }
 
 makeLenses ''App
@@ -53,6 +55,16 @@ data AddUrlResponse = AddUrlResponse
 
 data AddUrlRequest = AddUrlRequest
     { addUrlRequestUrl :: Text
+    } deriving Show
+
+data AuthUserRequest = AuthUserRequest
+    { authUserRequestUsername :: Text
+    , authUserRequestPassword :: Text
+    } deriving Show
+
+data AuthUserResponse = AuthUserResponse
+    { authUserResponseToken  :: Text
+    , authUserResponseUserPk :: Int64
     } deriving Show
 
 {- TBD: permissions? how do they work? need to figure out how to load user data from the DB and use it for auth'ing
@@ -84,17 +96,18 @@ instance FromJSON AddUrlRequest where
 
 -- Mapping of paths to their handler functions
 routes :: [(B.ByteString, Handler App App ())]
-routes = [ ("/urlInfo",       method GET  urlInfoHandler)
-         , ("/addUrl",        method POST addUrlHandler)
-         , ("/generateToken", method POST generateTokenHandler)
+routes = [ ("/urlInfo",   method GET  urlInfoHandler)
+         , ("/addUrl",    method POST addUrlHandler)
+         , ("/authUser",  method POST authUserHandler)
          ]
 
 appInit :: SnapletInit App App
 appInit = makeSnaplet "ald.li" "ald.li URL shortener API" Nothing $ do
-    d <- nestSnaplet "da" da $ daInit
+    da <- nestSnaplet "da" da $ daInit
+    um <- nestSnaplet "um" um $ umInit da
     addRoutes routes
     wrapSite (\site -> setResponseHeaders >> site)
-    return $ App d
+    return $ App da um
 
 -- Set response headers which apply to all routes
 setResponseHeaders :: Handler App App ()
@@ -137,16 +150,12 @@ addUrlHandler = do
           pkAsEncodedText = (fmap T.pack) . encodeR
           writeResponse message code urlPk = writeLBS . encode $ AddUrlResponse message code urlPk
 
-generateTokenHandler :: Handler App App ()
-generateTokenHandler = do
-    writeText "..."
-
-{-
+authUserHandler :: Handler App App ()
+authUserHandler = do
     requestBody <- readBody
-    case (decode requestBody :: Maybe GenerateTokenRequest) of
-        Just (GenerateTokenRequest username password) -> (with um $ authenticateUser username password)
-        Nothing                                       -> writeResponse "Unable to parse request body" "invalid_request_body" Nothing
--}
+    case (decode requestBody :: Maybe AuthUserRequest) of
+         Just (AuthUserRequest username password) -> writeLBS . encode $ AuthUserResponse "dummy" 123
+         Nothing                  -> writeFailure "Unable to parse request body" "invalid_request_body"
 
 main :: IO ()
 main = serveSnaplet defaultConfig appInit

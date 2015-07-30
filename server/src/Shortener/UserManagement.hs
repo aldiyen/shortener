@@ -1,12 +1,8 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Shortener.UserManager (
-    daInit,
-    loadUrl,
-    loadUrlInfo,
-    logRedirect,
-    insertUrl,
+module Shortener.UserManagement (
+    umInit,
     DataAccess,
     UserLogin(UserLogin),
     UrlInfo(UrlInfo),
@@ -30,10 +26,10 @@ makeLenses ''DataAccess
 
 data UserToken = UserToken Text
 
-umInit :: SnapletInit b DataAccess
-umInit = makeSnaplet "ald.li user manager" "ald.li URL shortener user manager module" Nothing $ do
-    d <- nestSnaplet "da" da $ daInit
-    return $ DataAccess d
+umInit :: Snaplet DataAccess -> SnapletInit b DataAccess
+umInit dataAccess = makeSnaplet "ald.li user management" "ald.li URL shortener user management module" Nothing $ do
+    da <- nestSnaplet "da" da $ dataAccess
+    return $ DataAccess da
 
 encryptPassword :: Text -> IO Maybe Text
 encryptPassword p = hashPasswordUsingPolicy (HashingPolicy 14) (encodeUtf8 p)

@@ -33,20 +33,22 @@ data DataAccess = DataAccess
 makeLenses ''DataAccess
 
 data UserLogin = UserLogin
-    { userLoginUserPk :: Int64
+    { userLoginUserPk   :: Int64
     , userLoginUsername :: Text
     } deriving Show
 
 data UrlInfo = UrlInfo
-    { urlInfoUrlPk  :: Int64
-    , urlInfoUrl :: Text
-    , urlInfoCreator :: UserLogin
-    , urlInfoCreatedDatetime :: UTCTime
-    , urlInfoCreationIp :: Text
+    { urlInfoUrlPk              :: Int64
+    , urlInfoUrl                :: Text
+    , urlInfoCreator            :: UserLogin
+    , urlInfoCreatedDatetime    :: UTCTime
+    , urlInfoCreationIp         :: Text
     , urlInfoLastAccessDatetime :: Maybe UTCTime
     } deriving Show
 
 data InsertUrlResult = NewUrlPk Int64 | ExistingUrlPk Int64 | InsertUrlError Text
+
+data InsertUserTokenResult = NewUserTokenPk Int64 | InsertUserTokenError Text
 
 instance FromRow UrlInfo where
     fromRow = UrlInfo <$> field <*> field <*> (liftM2 UserLogin field field) <*> field <*> field <*> field
@@ -78,9 +80,16 @@ logRedirect clientIp urlPk = do
 insertUrl :: (HasPostgres m, Functor m) => B.ByteString -> Int64 -> Text -> m InsertUrlResult
 insertUrl clientIp userPk url = do
     currentTime <- liftIO getCurrentTime
-    maybeResut <- fmap (listToMaybe) $ query "SELECT was_created, url_pk FROM add_url(?, ?, ?, ?)" $ (url, currentTime, clientIp, userPk)
-    case maybeResut of
+    maybeResult <- fmap (listToMaybe) $ query "SELECT was_created, url_pk FROM add_url(?, ?, ?, ?)" $ (url, currentTime, clientIp, userPk)
+    case maybeResult of
         Just (True, pk)  -> return (NewUrlPk pk)
         Just (False, pk) -> return (ExistingUrlPk pk)
         Nothing -> return $ InsertUrlError "Got no result from input query?"
 
+insertUserToken :: (HasPostgres m, Functor m) => B.ByteString -> Int64 -> B.ByteString -> m InsertUserTokenResult
+insertUserToken clientIp userPk token = do
+    currentTime <- liftIO getCurrentTime
+    maybeResult <- fmap (listToMaybe) $ query "SELECT user_token_pk FROM add_user_token(?, ?, ?, ?)" $ (token, currentTime, clientIp, userPk)
+    case maybeResult of
+        Just pk -> return (NewUserTokenPk pk)
+        Nothing -> return $ InsertUserTokenError "Got no result from input query?"
